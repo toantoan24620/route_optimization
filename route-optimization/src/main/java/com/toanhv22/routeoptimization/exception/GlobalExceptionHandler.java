@@ -31,6 +31,11 @@ public class GlobalExceptionHandler {
                 appConfig.getAppName());
     }
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<GeneralResponse<String>> handleBusinessExceptions(BusinessException ex) {
+        return responseFactory.fail(ex.getResponseStatusEnum(), ex.getArgs());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<GeneralResponse<String>> handleMethodArgumentNotValidExceptions(
             MethodArgumentNotValidException ex

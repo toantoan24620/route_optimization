@@ -19,7 +19,9 @@ public enum ResponseStatusEnum {
     UPLOAD_FILE_DOCS_SUCCESS(25, HttpStatus.OK.value()),
     FILE_NOT_FOUND(17, HttpStatus.OK.value()),
     CANT_READ_FILE(18, HttpStatus.OK.value()),
-    HANDLING_REQUEST_TIME_INVALID(19, HttpStatus.OK.value());
+    HANDLING_REQUEST_TIME_INVALID(19, HttpStatus.OK.value()),
+
+    DUPLICATED_IDENTIFY_NUMBER(20, HttpStatus.OK.value());
 
     private final int code;
     private final int httpCode;

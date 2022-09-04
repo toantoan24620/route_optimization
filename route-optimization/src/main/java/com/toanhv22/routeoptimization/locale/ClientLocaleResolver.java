@@ -1,7 +1,6 @@
 package com.toanhv22.routeoptimization.locale;
 
 import com.toanhv22.routeoptimization.config.AppConfig;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

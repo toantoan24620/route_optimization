@@ -3,8 +3,10 @@ package com.toanhv22.routeoptimization.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -12,8 +14,13 @@ import java.time.LocalDateTime;
 public class EmployeeResponse {
     private String id;
     private String name;
-    private LocalDateTime birthday;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate birthday;
     private String address;
     private String vehicleType;
     private Boolean status;
+    private String staffCode;
+    private String phoneNumber;
+    private String gender;
+    private String identifyNumber;
 }
