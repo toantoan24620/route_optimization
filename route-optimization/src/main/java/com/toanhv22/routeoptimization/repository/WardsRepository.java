@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface WardsRepository extends JpaRepository<Wards,String> {
     List<Wards> findByDistrictCode(String districtCode);
+    Wards findByCode(String code);
+    List<Wards> findByPathWithTypeContaining(String name);
 }

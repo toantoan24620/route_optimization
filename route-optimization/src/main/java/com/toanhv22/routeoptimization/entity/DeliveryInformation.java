@@ -7,20 +7,23 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name = "address")
+@Table(name = "delivery_information")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Address {
+public class DeliveryInformation {
     @Id
     @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "address_details")
     private String addressDetails;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     @Column(name = "longitude")
     private String longitude;

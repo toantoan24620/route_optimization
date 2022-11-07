@@ -17,4 +17,7 @@ public class AppConfig {
 
     @Value("${spring.application.name}")
     private String appName;
+
+    @Value("${google.maps.apiKey}")
+    private String apiKey;
 }

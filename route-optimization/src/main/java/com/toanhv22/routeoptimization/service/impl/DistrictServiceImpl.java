@@ -23,4 +23,9 @@ public class DistrictServiceImpl implements DistrictService{
     public List<DistrictResponse> findByCityProvinceCode(String cityProvinceCode) {
         return districtRepository.findByCityProvinceCode(cityProvinceCode).stream().map(districtMapper::entityToResponse).collect(Collectors.toList());
     }
+
+    @Override
+    public DistrictResponse findByCode(String code) {
+        return districtMapper.entityToResponse(districtRepository.findByCode(code));
+    }
 }

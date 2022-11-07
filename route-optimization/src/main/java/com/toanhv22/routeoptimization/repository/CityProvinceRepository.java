@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CityProvinceRepository extends JpaRepository<CityProvince,String> {
+    CityProvince findByCode(String code);
 }

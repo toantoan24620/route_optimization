@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Table(name = "Schedule_order")
 @Entity
@@ -30,4 +31,13 @@ public class ScheduleOrder {
 
     @Column(name = "status")
     private String status;
+
+    @Column(name = "received_date")
+    private LocalDateTime receivedDate;
+
+    @Column(name = "move_time_to_node")
+    private int moveTimeToNode;
+
+    @Column(name = "distance_to_next_node")
+    private double distanceToNextNode;
 }

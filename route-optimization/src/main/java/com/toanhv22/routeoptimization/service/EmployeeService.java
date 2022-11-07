@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {
-    List<EmployeeResponse> findAll();
+    List<EmployeeResponse> findAll(Boolean active);
 
     void delete(String employeeId);
 
-    List<EmployeeResponse> findByNameContaining(String name);
+    List<EmployeeResponse> findByNameContaining(String name, Boolean active);
 
-    EmployeeResponse findByStaffCode(String staffCode);
+    EmployeeResponse findByStaffCode(String staffCode, Boolean active);
 
     EmployeeResponse create(EmployeeRequest employeeRequest);
 

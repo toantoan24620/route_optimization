@@ -1,7 +1,6 @@
 package com.toanhv22.routeoptimization.service.impl;
 
 import com.toanhv22.routeoptimization.constant.ResponseStatusEnum;
-import com.toanhv22.routeoptimization.constant.VehicleTypeEnum;
 import com.toanhv22.routeoptimization.dto.request.EmployeeRequest;
 import com.toanhv22.routeoptimization.dto.response.EmployeeResponse;
 import com.toanhv22.routeoptimization.entity.Employee;
@@ -12,7 +11,6 @@ import com.toanhv22.routeoptimization.service.EmployeeService;
 import com.toanhv22.routeoptimization.utils.ULID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +27,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     @Override
-    public List<EmployeeResponse> findAll() {
+    public List<EmployeeResponse> findAll(Boolean active) {
         return employeeRepository.findAll().stream()
-                .filter(Employee::getStatus)
+                .filter(item -> item.getStatus() == active)
                 .map(employeeMapper::entityToResponse)
                 .collect(Collectors.toList());
     }
@@ -48,8 +46,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeResponse> findByNameContaining(String name) {
-        List<Employee> employees = employeeRepository.findByNameContaining(name);
+    public List<EmployeeResponse> findByNameContaining(String name, Boolean active) {
+        List<Employee> employees = employeeRepository.findByNameContainingAndStatus(name, active);
         if(employees.isEmpty()){
             throw new BusinessException(ResponseStatusEnum.LIST_EMPTY, "nhân viên", "tên là: " + name);
         }
@@ -57,8 +55,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeResponse findByStaffCode(String staffCode) {
-        Optional<Employee> employee = employeeRepository.findByStaffCode(staffCode);
+    public EmployeeResponse findByStaffCode(String staffCode, Boolean active) {
+        Optional<Employee> employee = employeeRepository.findByStaffCodeAndStatus(staffCode,active);
         if(!employee.isPresent()){
             throw new BusinessException(ResponseStatusEnum.LIST_EMPTY, "nhân viên", "mã nhân viên là: " + staffCode);
         }
@@ -69,10 +67,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional(rollbackFor = Exception.class)
     public EmployeeResponse create(EmployeeRequest employeeRequest) {
         if(employeeRepository.findByStaffCode(employeeRequest.getStaffCode()).isPresent()){
-            throw new BusinessException(ResponseStatusEnum.ENTITY_DUPLICATED,"nhân viên","mã nhân viên: " + employeeRequest.getStaffCode());
+            throw new BusinessException(ResponseStatusEnum.ENTITY_DUPLICATED,"Mã nhân viên",employeeRequest.getStaffCode());
         }
         if(employeeRepository.findByIdentifyNumber(employeeRequest.getIdentifyNumber()).isPresent()){
-            throw new BusinessException(ResponseStatusEnum.DUPLICATED_IDENTIFY_NUMBER,employeeRequest.getIdentifyNumber());
+            throw new BusinessException(ResponseStatusEnum.ENTITY_DUPLICATED,"Số CMT/CCCD",employeeRequest.getIdentifyNumber());
         }
         Employee employee = employeeMapper.requestToEntity(employeeRequest);
         employee.setId(ULID.nextULID());
@@ -84,8 +82,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional(rollbackFor = Exception.class)
     public EmployeeResponse update(EmployeeRequest employeeRequest) {
         Optional<Employee> tempEmployee = employeeRepository.findByIdentifyNumber(employeeRequest.getIdentifyNumber());
+
+        // là 1 nhân viên khác đã có số CMT giống với số muốn sửa
+        // không cho sửa mã nhân viên nên chỉ check số CMT/CCCD
         if(tempEmployee.isPresent() && !tempEmployee.get().getId().equals(employeeRequest.getId())){
-            throw new BusinessException(ResponseStatusEnum.DUPLICATED_IDENTIFY_NUMBER,employeeRequest.getIdentifyNumber());
+            throw new BusinessException(ResponseStatusEnum.ENTITY_DUPLICATED,"Số CMT/CCCD",employeeRequest.getIdentifyNumber());
         }
         Employee employee = employeeMapper.requestToEntity(employeeRequest);
         return employeeMapper.entityToResponse(employeeRepository.save(employee));

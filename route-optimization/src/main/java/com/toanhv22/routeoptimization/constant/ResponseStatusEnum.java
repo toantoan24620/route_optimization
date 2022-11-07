@@ -21,7 +21,9 @@ public enum ResponseStatusEnum {
     CANT_READ_FILE(18, HttpStatus.OK.value()),
     HANDLING_REQUEST_TIME_INVALID(19, HttpStatus.OK.value()),
 
-    DUPLICATED_IDENTIFY_NUMBER(20, HttpStatus.OK.value());
+    DUPLICATED_LICENSE_PLATE(21, HttpStatus.OK.value()),
+    DUPLICATED_WAREHOUSE(22, HttpStatus.OK.value()),
+    WAREHOUSE_HAS_NOT_ORDERS(23,HttpStatus.OK.value());
 
     private final int code;
     private final int httpCode;

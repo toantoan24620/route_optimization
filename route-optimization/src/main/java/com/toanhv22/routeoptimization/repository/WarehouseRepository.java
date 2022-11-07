@@ -4,6 +4,15 @@ import com.toanhv22.routeoptimization.entity.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface WarehouseRepository extends JpaRepository<Warehouse, String> {
+    List<Warehouse> findByNameContainingAndStatus(String name, Boolean status);
+    Optional<Warehouse> findByIdAndStatus(String id, Boolean status);
+    List<Warehouse> findByStatus(Boolean status);
+    Optional<Warehouse> findByCode(String code);
+    List<Warehouse> findByNameContaining(String name);
 }

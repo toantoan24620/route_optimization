@@ -23,8 +23,8 @@ public class EmployeeController {
     private final ResponseFactory responseFactory;
 
     @GetMapping
-    public ResponseEntity<GeneralResponse<List<EmployeeResponse>>> findAll(){
-        return responseFactory.success(employeeService.findAll());
+    public ResponseEntity<GeneralResponse<List<EmployeeResponse>>> findAll(@RequestParam Boolean active){
+        return responseFactory.success(employeeService.findAll(active));
     }
 
     @PostMapping
@@ -38,18 +38,18 @@ public class EmployeeController {
     }
 
     @DeleteMapping
-    public ResponseEntity<GeneralResponse<Void>> deleteEmployee(@RequestParam @NotNull(message = "ID nhân viên không được để trống") String employeeId){
+    public ResponseEntity<GeneralResponse<Void>> deleteEmployee(@RequestParam String employeeId){
         employeeService.delete(employeeId);
         return responseFactory.success(null);
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<GeneralResponse<List<EmployeeResponse>>> findByName(@PathVariable String name){
-        return responseFactory.success(employeeService.findByNameContaining(name));
+    public ResponseEntity<GeneralResponse<List<EmployeeResponse>>> findByName(@PathVariable String name, @RequestParam Boolean active){
+        return responseFactory.success(employeeService.findByNameContaining(name, active));
     }
 
     @GetMapping("/staffCode/{staffCode}")
-    public ResponseEntity<GeneralResponse<EmployeeResponse>> findByStaffCode(@PathVariable String staffCode){
-        return responseFactory.success(employeeService.findByStaffCode(staffCode));
+    public ResponseEntity<GeneralResponse<EmployeeResponse>> findByStaffCode(@PathVariable String staffCode, @RequestParam Boolean active){
+        return responseFactory.success(employeeService.findByStaffCode(staffCode, active));
     }
 }

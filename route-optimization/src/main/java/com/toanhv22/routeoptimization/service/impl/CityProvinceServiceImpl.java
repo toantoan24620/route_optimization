@@ -23,4 +23,9 @@ public class CityProvinceServiceImpl implements CityProvinceService {
     public List<CityProvinceResponse> findAll() {
         return cityProvinceRepository.findAll().stream().map(cityProvinceMapper::entityToResponse).collect(Collectors.toList());
     }
+
+    @Override
+    public CityProvinceResponse findByCode(String code) {
+        return cityProvinceMapper.entityToResponse(cityProvinceRepository.findByCode(code));
+    }
 }

@@ -20,7 +20,17 @@ public class WardsServiceImpl implements WardsService {
     private final WardsRepository wardsRepository;
 
     @Override
+    public List<WardsResponse> findAll() {
+        return wardsRepository.findAll().stream().map(wardsMapper::entityToResponse).collect(Collectors.toList());
+    }
+
+    @Override
     public List<WardsResponse> findByDistrictCode(String districtCode) {
         return wardsRepository.findByDistrictCode(districtCode).stream().map(wardsMapper::entityToResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public WardsResponse findByCode(String code) {
+        return wardsMapper.entityToResponse(wardsRepository.findByCode(code));
     }
 }

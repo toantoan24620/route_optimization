@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CityProvinceService{
     List<CityProvinceResponse> findAll();
+    CityProvinceResponse findByCode(String code);
 }

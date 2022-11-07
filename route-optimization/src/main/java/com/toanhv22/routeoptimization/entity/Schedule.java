@@ -26,6 +26,18 @@ public class Schedule {
     @Column(name = "employee_id")
     private String employeeId;
 
+    @Column(name = "warehouse_id")
+    private String warehouseId;
+
     @Column(name = "delivery_date")
     private LocalDateTime deliveryDate;
+
+    @Column(name = "weight")
+    private double weight;
+
+    @Column(name = "move_time")
+    private int moveTime;
+
+    @Column(name = "status")
+    private String status;
 }

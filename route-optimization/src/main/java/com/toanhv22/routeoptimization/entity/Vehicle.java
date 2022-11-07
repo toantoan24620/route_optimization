@@ -19,11 +19,11 @@ public class Vehicle {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "vehicle_name")
-    private String vehicleName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "status")
-    private String status;
+    private Boolean status;
 
     @Column(name = "type")
     private String type;
@@ -33,6 +33,15 @@ public class Vehicle {
 
     @Column(name = "average_fuel_consumption")
     private Double averageFuelConsumption;
+
+    @Column(name = "capacity_weight")
+    private Integer capacityWeight;
+
+    @Column(name = "capacity_volume")
+    private Double capacityVolume;
+
+    @Column(name = "shipped")
+    private Boolean shipped;
 
     @Column(name = "warehouse_id")
     private String warehouseId;

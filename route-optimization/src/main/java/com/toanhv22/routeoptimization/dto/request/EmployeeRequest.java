@@ -3,10 +3,14 @@ package com.toanhv22.routeoptimization.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -27,9 +31,23 @@ public class EmployeeRequest {
     @NotNull(message = "Ngày sinh không được để trống")
     private LocalDate birthday;
 
+    @NotNull(message = "Max nhân viên không được để trống")
     private String staffCode;
+
+    @NotNull(message = "Số điện thoại không được để trống.")
     private String phoneNumber;
+
+    @NotNull(message = "Giới tính không được để trống")
     private String gender;
+
+    @NotNull(message = "Số CMT/CCCD không được để trống")
     private String identifyNumber;
+
     private Boolean status;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime createdDate;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime updatedDate;
 }

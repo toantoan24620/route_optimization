@@ -1,6 +1,8 @@
 package com.toanhv22.routeoptimization.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
@@ -49,4 +51,14 @@ public class Employee {
 
     @Column(name = "status")
     private Boolean status;
+
+    @CreationTimestamp
+    @Column(name = "created_date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    @Column(name = "updated_date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime updatedDate;
 }
