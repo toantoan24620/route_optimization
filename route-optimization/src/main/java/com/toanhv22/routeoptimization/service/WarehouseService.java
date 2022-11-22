@@ -2,7 +2,6 @@ package com.toanhv22.routeoptimization.service;
 
 import com.toanhv22.routeoptimization.dto.request.WarehouseRequest;
 import com.toanhv22.routeoptimization.dto.response.WarehouseResponse;
-import com.toanhv22.routeoptimization.entity.Warehouse;
 
 import java.util.List;
 
@@ -14,4 +13,6 @@ public interface WarehouseService {
     void delete(String warehouseID);
     WarehouseResponse create(WarehouseRequest warehouseRequest);
     WarehouseResponse update(WarehouseRequest warehouseRequest);
+
+    WarehouseResponse findByScheduleId(String scheduleId);
 }

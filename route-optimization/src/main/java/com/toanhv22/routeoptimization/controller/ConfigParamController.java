@@ -1,7 +1,6 @@
 package com.toanhv22.routeoptimization.controller;
 
 import com.toanhv22.routeoptimization.dto.request.ConfigParamRequest;
-import com.toanhv22.routeoptimization.dto.response.CityProvinceResponse;
 import com.toanhv22.routeoptimization.dto.response.ConfigParamResponse;
 import com.toanhv22.routeoptimization.factory.response.GeneralResponse;
 import com.toanhv22.routeoptimization.factory.response.ResponseFactory;

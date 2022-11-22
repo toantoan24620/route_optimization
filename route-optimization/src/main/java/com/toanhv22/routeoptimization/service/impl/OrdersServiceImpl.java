@@ -5,14 +5,18 @@ import com.toanhv22.routeoptimization.constant.OrdersStatusEnum;
 import com.toanhv22.routeoptimization.constant.ResponseStatusEnum;
 import com.toanhv22.routeoptimization.constant.VehicleTypeEnum;
 import com.toanhv22.routeoptimization.dto.request.OrdersRequest;
-import com.toanhv22.routeoptimization.dto.response.DeliveryInformationResponse;
 import com.toanhv22.routeoptimization.dto.response.OrdersResponse;
-import com.toanhv22.routeoptimization.entity.*;
+import com.toanhv22.routeoptimization.entity.Customer;
+import com.toanhv22.routeoptimization.entity.Orders;
+import com.toanhv22.routeoptimization.entity.Wards;
+import com.toanhv22.routeoptimization.entity.Warehouse;
 import com.toanhv22.routeoptimization.exception.BusinessException;
-import com.toanhv22.routeoptimization.mapper.*;
+import com.toanhv22.routeoptimization.mapper.CustomerMapper;
+import com.toanhv22.routeoptimization.mapper.OrdersMapper;
+import com.toanhv22.routeoptimization.mapper.WardsMapper;
+import com.toanhv22.routeoptimization.mapper.WarehouseMapper;
 import com.toanhv22.routeoptimization.repository.*;
 import com.toanhv22.routeoptimization.service.OrdersService;
-import com.toanhv22.routeoptimization.utils.Common;
 import com.toanhv22.routeoptimization.utils.ULID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -146,13 +150,13 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public OrdersResponse update(OrdersRequest ordersRequest) {
         //update size, weight -> update vehicle type
         Double maxWeight = Double.valueOf(configParamRepository.findById(ConfigParamEnum.MAX_WEIGHT_PER_PACKAGE.toString()).get().getValue());
         Double maxSize = Double.valueOf(configParamRepository.findById(ConfigParamEnum.MAX_SIZE_PER_PACKAGE.toString()).get().getValue());
         Orders order = ordersMapper.requestToEntity(ordersRequest);
-        if(order.getWeight() <= maxWeight || order.getSize() <= maxSize)
-            order.setVehicleType(VehicleTypeEnum.MOTORBIKE.toString());
+        order.setVehicleType(order.getWeight() <= maxWeight || order.getSize() <= maxSize ? VehicleTypeEnum.MOTORBIKE.toString() : VehicleTypeEnum.CAR.toString());
 
         OrdersResponse ordersResponse = ordersMapper.entityToResponse(ordersRepository.save(order));
         List<OrdersResponse> ordersResponses = new ArrayList<>();

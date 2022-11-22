@@ -257,7 +257,7 @@ public class TabuSearchSolver {
                             .sequence(j)
                             .status(OrdersStatusEnum.SCHEDULED.toString())
                             .moveTimeToNode(costMatrix.getMoveTime())
-                            .distanceToNextNode(costMatrix.getDistance())
+                            .distanceToNode(costMatrix.getDistance())
                             .build();
                     scheduleOrderRepository.save(scheduleOrder);
                 }

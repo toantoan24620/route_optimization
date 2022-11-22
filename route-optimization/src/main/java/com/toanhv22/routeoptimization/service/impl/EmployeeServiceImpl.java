@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeResponse> findAll(Boolean active) {
         return employeeRepository.findAll().stream()
-                .filter(item -> item.getStatus() == active)
+                .filter(item -> Objects.equals(item.getStatus(), active))
                 .map(employeeMapper::entityToResponse)
                 .collect(Collectors.toList());
     }

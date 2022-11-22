@@ -38,6 +38,6 @@ public class ScheduleOrder {
     @Column(name = "move_time_to_node")
     private int moveTimeToNode;
 
-    @Column(name = "distance_to_next_node")
-    private double distanceToNextNode;
+    @Column(name = "distance_to_node")
+    private double distanceToNode;
 }

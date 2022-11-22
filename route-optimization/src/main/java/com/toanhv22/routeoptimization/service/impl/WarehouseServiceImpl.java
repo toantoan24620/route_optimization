@@ -125,6 +125,12 @@ public class WarehouseServiceImpl implements WarehouseService {
         return warehouseResponse;
     }
 
+    @Override
+    public WarehouseResponse findByScheduleId(String scheduleId) {
+        Warehouse warehouse = warehouseRepository.findByScheduleId(scheduleId);
+        return warehouseMapper.entityToResponse(warehouse);
+    }
+
     public void mapPathWithTypeToWarehouses(List<WarehouseResponse> warehouseResponses, List<Wards> wards){
         for(int i=0;i<warehouseResponses.size();i++){
             String code = warehouseResponses.get(i).getWardsCode();

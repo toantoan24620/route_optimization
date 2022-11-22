@@ -1,8 +1,9 @@
 package com.toanhv22.routeoptimization.service.impl;
 
+import com.toanhv22.routeoptimization.constant.OrdersStatusEnum;
 import com.toanhv22.routeoptimization.constant.ResponseStatusEnum;
+import com.toanhv22.routeoptimization.dto.request.ScheduleUpdateRequest;
 import com.toanhv22.routeoptimization.dto.response.ScheduleResponse;
-import com.toanhv22.routeoptimization.dto.response.VehicleResponse;
 import com.toanhv22.routeoptimization.entity.*;
 import com.toanhv22.routeoptimization.exception.BusinessException;
 import com.toanhv22.routeoptimization.mapper.ScheduleMapper;
@@ -10,9 +11,10 @@ import com.toanhv22.routeoptimization.repository.*;
 import com.toanhv22.routeoptimization.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,6 +80,42 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         mapData(scheduleResponses);
         return scheduleResponses;
+    }
+
+    @Override
+    public ScheduleResponse findById(String id) {
+        Optional<Schedule> scheduleOptional = scheduleRepository.findById(id);
+        if(!scheduleOptional.isPresent())
+            throw new BusinessException(ResponseStatusEnum.LIST_EMPTY,"lịch trình","tiêu chí tìm kiếm");
+        ScheduleResponse scheduleResponse = scheduleMapper.entityToResponse(scheduleOptional.get());
+        List<ScheduleResponse> scheduleResponses = new ArrayList<>();
+        scheduleResponses.add(scheduleResponse);
+        mapData(scheduleResponses);
+        return scheduleResponses.get(0);
+    }
+
+    @Override
+    public List<ScheduleResponse> findByDeliveryDate(String deliveryDate) {
+        String[] temp = deliveryDate.split("/");
+        List<Schedule> schedules = scheduleRepository.findByDeliveryDate(LocalDate.of(Integer.parseInt(temp[2]),Integer.parseInt(temp[1]), Integer.parseInt(temp[0])));
+        if(schedules.isEmpty()){
+            throw new BusinessException(ResponseStatusEnum.LIST_EMPTY,"lịch trình","tiêu chí tìm kiếm");
+        }
+        List<ScheduleResponse> scheduleResponses = schedules.stream().filter(c -> (c.getStatus().equals(OrdersStatusEnum.SCHEDULED.toString()) || c.getStatus().equals(OrdersStatusEnum.DELIVERING.toString()))).map(scheduleMapper::entityToResponse).collect(Collectors.toList());
+        mapData(scheduleResponses);
+        return scheduleResponses;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(ScheduleUpdateRequest request) {
+        Schedule schedule = scheduleRepository.findById(request.getId()).get();
+        schedule.setStatus(request.getStatus());
+        schedule.setDeliveryDate(request.getDeliveryDate());
+        schedule.setEmployeeId(request.getEmployeeId());
+        schedule.setVehicleId(request.getVehicleId());
+
+        scheduleRepository.save(schedule);
     }
 
     public void mapData(List<ScheduleResponse> scheduleResponses){

@@ -1,10 +1,7 @@
 package com.toanhv22.routeoptimization.controller;
 
-import com.toanhv22.routeoptimization.dto.request.EmployeeRequest;
 import com.toanhv22.routeoptimization.dto.request.WarehouseRequest;
-import com.toanhv22.routeoptimization.dto.response.EmployeeResponse;
 import com.toanhv22.routeoptimization.dto.response.WarehouseResponse;
-import com.toanhv22.routeoptimization.entity.Warehouse;
 import com.toanhv22.routeoptimization.factory.response.GeneralResponse;
 import com.toanhv22.routeoptimization.factory.response.ResponseFactory;
 import com.toanhv22.routeoptimization.service.WarehouseService;
@@ -14,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -59,5 +55,10 @@ public class WarehouseController {
     @GetMapping("/area/{area}")
     public ResponseEntity<GeneralResponse<List<WarehouseResponse>>> findByArea(@PathVariable String area, @RequestParam Boolean active){
         return responseFactory.success(warehouseService.findByArea(area, active));
+    }
+
+    @GetMapping("/scheduleId/{scheduleId}")
+    public ResponseEntity<GeneralResponse<WarehouseResponse>> findByScheduleId(@PathVariable String scheduleId){
+        return responseFactory.success(warehouseService.findByScheduleId(scheduleId));
     }
 }

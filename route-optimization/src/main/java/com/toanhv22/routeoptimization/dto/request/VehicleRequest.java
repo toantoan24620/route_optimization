@@ -33,7 +33,5 @@ public class VehicleRequest {
     @NotNull(message = "Sức chứa của xe không được để trống")
     private Double capacityVolume;
 
-    private Boolean shipped;
-
     private Boolean status;
 }

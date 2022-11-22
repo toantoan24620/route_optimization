@@ -1,7 +1,6 @@
 package com.toanhv22.routeoptimization.controller;
 
 import com.toanhv22.routeoptimization.dto.response.DistrictResponse;
-import com.toanhv22.routeoptimization.dto.response.WardsResponse;
 import com.toanhv22.routeoptimization.factory.response.GeneralResponse;
 import com.toanhv22.routeoptimization.factory.response.ResponseFactory;
 import com.toanhv22.routeoptimization.service.DistrictService;

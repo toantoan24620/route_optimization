@@ -40,9 +40,6 @@ public class Vehicle {
     @Column(name = "capacity_volume")
     private Double capacityVolume;
 
-    @Column(name = "shipped")
-    private Boolean shipped;
-
     @Column(name = "warehouse_id")
     private String warehouseId;
 }

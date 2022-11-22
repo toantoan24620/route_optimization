@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class ScheduleResponse {
     private String vehicleId;
     private String employeeId;
     private String warehouseId;
-    private LocalDateTime deliveryDate;
+    private LocalDate deliveryDate;
     private double weight;
     private int moveTime;
     private String status;

@@ -1,7 +1,6 @@
 package com.toanhv22.routeoptimization.controller;
 
 import com.toanhv22.routeoptimization.dto.request.VehicleRequest;
-import com.toanhv22.routeoptimization.dto.response.EmployeeResponse;
 import com.toanhv22.routeoptimization.dto.response.VehicleResponse;
 import com.toanhv22.routeoptimization.factory.response.GeneralResponse;
 import com.toanhv22.routeoptimization.factory.response.ResponseFactory;
@@ -34,11 +33,6 @@ public class VehicleController {
         return responseFactory.success(vehicleService.getById(id));
     }
 
-    @GetMapping("/shipped/{shipped}")
-    public ResponseEntity<GeneralResponse<List<VehicleResponse>>> getByShipped(@PathVariable Boolean shipped){
-        return responseFactory.success(vehicleService.getByShipped(shipped));
-    }
-
     @GetMapping("/name/{name}")
     public ResponseEntity<GeneralResponse<List<VehicleResponse>>> getByName(@PathVariable String name){
         return responseFactory.success(vehicleService.getByName(name));
@@ -47,6 +41,11 @@ public class VehicleController {
     @GetMapping("/license-plate/{licensePlate}")
     public ResponseEntity<GeneralResponse<VehicleResponse>> getByLicensePlate(@PathVariable String licensePlate,@RequestParam Boolean active){
         return responseFactory.success(vehicleService.getByLicensePlate(licensePlate,active));
+    }
+
+    @GetMapping("/weight/{weight}")
+    public ResponseEntity<GeneralResponse<List<VehicleResponse>>> getByWeightGreater(@PathVariable Integer weight){
+        return responseFactory.success(vehicleService.getByWeightGreater(weight));
     }
 
     @PostMapping

@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle,String> {
-    List<Vehicle> findByShipped(Boolean shipped);
     List<Vehicle> findByNameContaining(String name);
     Optional<Vehicle> findByLicensePlateAndStatus(String licensePlate, Boolean active);
     List<Vehicle> findByStatus(Boolean status);
     Optional<Vehicle> findByLicensePlate(String licensePlate);
+    List<Vehicle> findByCapacityWeightGreaterThanEqualAndStatusIsTrue(Integer capacityWeight);
 }

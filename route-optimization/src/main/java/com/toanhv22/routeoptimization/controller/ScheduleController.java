@@ -1,6 +1,7 @@
 package com.toanhv22.routeoptimization.controller;
 
 import com.toanhv22.routeoptimization.dto.request.ScheduleCreationRequest;
+import com.toanhv22.routeoptimization.dto.request.ScheduleUpdateRequest;
 import com.toanhv22.routeoptimization.dto.response.ScheduleResponse;
 import com.toanhv22.routeoptimization.factory.response.GeneralResponse;
 import com.toanhv22.routeoptimization.factory.response.ResponseFactory;
@@ -44,5 +45,23 @@ public class ScheduleController {
     @GetMapping("/employee/{employeeCode}")
     public ResponseEntity<GeneralResponse<List<ScheduleResponse>>> findByEmployee(@PathVariable(name = "employeeCode") String employeeCode){
         return responseFactory.success(scheduleService.findByEmployee(employeeCode));
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<GeneralResponse<ScheduleResponse>> findById(@PathVariable(name = "id") String id){
+        return responseFactory.success(scheduleService.findById(id));
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<GeneralResponse<List<ScheduleResponse>>> findByStatusAndDeliveryDate(
+            @RequestParam String deliveryDate
+            ){
+        return responseFactory.success(scheduleService.findByDeliveryDate(deliveryDate));
+    }
+
+    @PutMapping
+    public ResponseEntity<GeneralResponse<Void>> update(@RequestBody ScheduleUpdateRequest request){
+        scheduleService.update(request);
+        return responseFactory.success(null);
     }
 }

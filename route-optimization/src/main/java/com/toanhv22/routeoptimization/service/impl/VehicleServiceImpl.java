@@ -5,21 +5,18 @@ import com.toanhv22.routeoptimization.dto.request.VehicleRequest;
 import com.toanhv22.routeoptimization.dto.response.VehicleResponse;
 import com.toanhv22.routeoptimization.dto.response.WarehouseResponse;
 import com.toanhv22.routeoptimization.entity.Vehicle;
-import com.toanhv22.routeoptimization.entity.Warehouse;
 import com.toanhv22.routeoptimization.exception.BusinessException;
 import com.toanhv22.routeoptimization.mapper.VehicleMapper;
 import com.toanhv22.routeoptimization.mapper.WarehouseMapper;
 import com.toanhv22.routeoptimization.repository.VehicleRepository;
 import com.toanhv22.routeoptimization.repository.WarehouseRepository;
 import com.toanhv22.routeoptimization.service.VehicleService;
-import com.toanhv22.routeoptimization.service.WarehouseService;
 import com.toanhv22.routeoptimization.utils.ULID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,21 +34,6 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<VehicleResponse> getAll(Boolean active) {
         List<VehicleResponse> vehicleResponses = vehicleRepository.findByStatus(active).stream().map(vehicleMapper::entityToResponse).collect(Collectors.toList());
-        mapWarehouseToVehicle(vehicleResponses);
-
-        return vehicleResponses;
-    }
-
-    @Override
-    public List<VehicleResponse> getByShipped(Boolean shipped) {
-        List<VehicleResponse> vehicleResponses = vehicleRepository.findByShipped(shipped).stream().map(vehicleMapper::entityToResponse).collect(Collectors.toList());
-
-        if(vehicleResponses.isEmpty()){
-            if(shipped){
-                throw new BusinessException(ResponseStatusEnum.LIST_EMPTY,"phương tiện","trạng thái là đang hoạt động.");
-            }
-            throw new BusinessException(ResponseStatusEnum.LIST_EMPTY,"phương tiện","trạng thái là đang không hoạt động");
-        }
         mapWarehouseToVehicle(vehicleResponses);
 
         return vehicleResponses;
@@ -93,7 +75,6 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle temp = vehicleMapper.requestToEntity(vehicleRequest);
         temp.setId(ULID.nextULID());
         temp.setStatus(true);
-        temp.setShipped(false);
         VehicleResponse vehicleResponse = vehicleMapper.entityToResponse(vehicleRepository.save(temp));
 
         vehicleResponse.setWarehouse(warehouseMapper.entityToResponse(warehouseRepository.findById(temp.getWarehouseId()).get()));
@@ -122,12 +103,21 @@ public class VehicleServiceImpl implements VehicleService {
             throw new BusinessException(ResponseStatusEnum.LIST_EMPTY,"phương tiện","ID là: "+vehicleId);
         }
         vehicle.get().setStatus(false);
-        vehicle.get().setShipped(false);
     }
 
     @Override
     public VehicleResponse getById(String id) {
         return vehicleMapper.entityToResponse(vehicleRepository.findById(id).get());
+    }
+
+    @Override
+    public List<VehicleResponse> getByWeightGreater(Integer weight) {
+        List<Vehicle> vehicles =  vehicleRepository.findByCapacityWeightGreaterThanEqualAndStatusIsTrue(weight);
+        if(vehicles.isEmpty())
+            throw new BusinessException(ResponseStatusEnum.LIST_EMPTY,"phương tiện","tiêu chí tìm kiếm");
+        List<VehicleResponse> vehicleResponses = vehicles.stream().map(vehicleMapper::entityToResponse).collect(Collectors.toList());
+        mapWarehouseToVehicle(vehicleResponses);
+        return vehicleResponses;
     }
 
     public void mapWarehouseToVehicle(List<VehicleResponse> vehicleResponses){
