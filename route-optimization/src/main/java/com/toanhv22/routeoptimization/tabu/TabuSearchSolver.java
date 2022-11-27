@@ -243,7 +243,7 @@ public class TabuSearchSolver {
                         .weight(this.bestSolutionVehicles[i].getLoading())
                         .moveTime(this.bestSolutionVehicles[i].getCurrentTime())
                         .warehouseId(warehouseId)
-                        .status(OrdersStatusEnum.SCHEDULED.toString())
+                        .status(OrdersStatusEnum.PENDING.toString())
                         .build();
                 scheduleRepository.save(schedule);
                 for (int j = 1; j < this.bestSolutionVehicles[i].routes.size() - 1; j++) {
@@ -255,7 +255,6 @@ public class TabuSearchSolver {
                             .scheduleId(scheduleId)
                             .orderId(this.bestSolutionVehicles[i].routes.get(j).id)
                             .sequence(j)
-                            .status(OrdersStatusEnum.SCHEDULED.toString())
                             .moveTimeToNode(costMatrix.getMoveTime())
                             .distanceToNode(costMatrix.getDistance())
                             .build();

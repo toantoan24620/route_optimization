@@ -29,9 +29,6 @@ public class ScheduleOrder {
     @Column(name = "sequence")
     private Integer sequence;
 
-    @Column(name = "status")
-    private String status;
-
     @Column(name = "received_date")
     private LocalDateTime receivedDate;
 

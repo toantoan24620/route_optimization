@@ -43,6 +43,7 @@ public class ScheduleOrderServiceImpl implements ScheduleOrderService {
             Orders order = orders.stream().filter(c -> c.getId().equals(orderId)).findFirst().orElse(null);
 
             if(order != null){
+                scheduleOrderResponses.get(i).setStatus(order.getStatus());
                 scheduleOrderResponses.get(i).setAddress(order.getAddress());
                 scheduleOrderResponses.get(i).setTotalMoney(order.getTotalMoney());
                 scheduleOrderResponses.get(i).setItemName(order.getItemName());
