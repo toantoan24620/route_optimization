@@ -19,4 +19,6 @@ public interface ScheduleService {
     List<ScheduleResponse> findByDeliveryDate(String deliveryDate);
 
     void update(ScheduleUpdateRequest request);
+
+    void cancelationSchedule(String id);
 }

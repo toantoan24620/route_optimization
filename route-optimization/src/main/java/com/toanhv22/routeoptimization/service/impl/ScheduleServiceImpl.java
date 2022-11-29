@@ -29,6 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleOrderRepository scheduleOrderRepository;
     private final ScheduleMapper scheduleMapper;
     private final WarehouseRepository warehouseRepository;
+    private final OrdersRepository ordersRepository;
 
     @Override
     public List<ScheduleResponse> findAll() {
@@ -116,6 +117,24 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setVehicleId(request.getVehicleId());
 
         scheduleRepository.save(schedule);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void cancelationSchedule(String id) {
+        // delete all schedule order
+        List<ScheduleOrder> scheduleOrders = scheduleOrderRepository.findByScheduleId(id);
+        List<String> orderIds = scheduleOrders.stream().map(ScheduleOrder::getOrderId).collect(Collectors.toList());
+        scheduleOrderRepository.deleteByScheduleId(id);
+
+        // change status of orders to PENDING
+        List<Orders> orders = ordersRepository.findByIdIn(orderIds);
+        for (Orders order : orders) {
+            order.setStatus(OrdersStatusEnum.PENDING.toString());
+        }
+
+        // delete schedule
+        scheduleRepository.deleteById(id);
     }
 
     public void mapData(List<ScheduleResponse> scheduleResponses){

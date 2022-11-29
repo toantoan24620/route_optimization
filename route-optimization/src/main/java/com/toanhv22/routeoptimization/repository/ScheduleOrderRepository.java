@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ScheduleOrderRepository extends JpaRepository<ScheduleOrder, String> {
     List<ScheduleOrder> findByScheduleId(String scheduleId);
+    void deleteByScheduleId(String id);
 }

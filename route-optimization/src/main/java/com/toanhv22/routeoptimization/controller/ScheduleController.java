@@ -64,4 +64,10 @@ public class ScheduleController {
         scheduleService.update(request);
         return responseFactory.success(null);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<GeneralResponse<Void>> cancelationSchedule(@PathVariable String id){
+        scheduleService.cancelationSchedule(id);
+        return responseFactory.success(null);
+    }
 }

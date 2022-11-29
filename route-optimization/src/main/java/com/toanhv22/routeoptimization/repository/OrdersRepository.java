@@ -21,4 +21,6 @@ public interface OrdersRepository extends JpaRepository<Orders, String> {
     List<Orders> findByStatus(String status);
     List<Orders> findByVehicleTypeAndStatus(String vehicleType, String status);
     List<Orders> findByVehicleType(String vehicleType);
+
+    List<Orders> findByIdIn(List<String> ids);
 }
