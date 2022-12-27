@@ -39,4 +39,8 @@ public class ScheduleOrderResponse {
     private String orderLat;
 
     private String orderLng;
+
+    private String arrivalTime;
+
+    private String leftTime;
 }

@@ -25,4 +25,9 @@ public class ScheduleOrderController {
     public ResponseEntity<GeneralResponse<List<ScheduleOrderResponse>>> findByScheduleId(@PathVariable String scheduleId){
         return responseFactory.success(scheduleOrderService.findByScheduleId(scheduleId));
     }
+
+    @GetMapping("/warehouseId/{warehouseId}")
+    public ResponseEntity<GeneralResponse<List<List<ScheduleOrderResponse>>>> findByWarehouseId(@PathVariable String warehouseId){
+        return responseFactory.success(scheduleOrderService.findByWarehouseId(warehouseId));
+    }
 }
