@@ -30,6 +30,7 @@ public class ConfigParamServiceImpl implements ConfigParamService {
         return configParamRepository.findAll().stream().map(configParamMapper::entityToResponse).collect(Collectors.toList());
     }
 
+    //find By Id
     @Override
     public ConfigParamResponse findById(String id) {
         Optional<ConfigParam> configParam = configParamRepository.findById(id);
