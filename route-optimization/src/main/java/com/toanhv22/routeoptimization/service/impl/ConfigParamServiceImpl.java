@@ -26,6 +26,7 @@ public class ConfigParamServiceImpl implements ConfigParamService {
 
     // find all
     // test
+    // test 1
     @Override
     public List<ConfigParamResponse> findAll() {
         return configParamRepository.findAll().stream().map(configParamMapper::entityToResponse).collect(Collectors.toList());
