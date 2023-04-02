@@ -47,6 +47,7 @@ public class ConfigParamServiceImpl implements ConfigParamService {
         return configParamMapper.entityToResponse(configParam.get());
     }
 
+    //toanhv22
     @Override
     public ConfigParamResponse update(ConfigParamRequest configParamRequest) {
         ConfigParam configParam = configParamMapper.requestToEntity(configParamRequest);
